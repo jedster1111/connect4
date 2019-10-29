@@ -37,6 +37,9 @@ export function placePiece(
   });
 }
 
+/**
+ * Returns undefined if the column is full
+ */
 export function findHighestEmptyRow(
   pieces: Pieces,
   col: number
@@ -45,7 +48,7 @@ export function findHighestEmptyRow(
   while (i < pieces.length && !pieces[i][col]) {
     i++;
   }
-  return i - 1;
+  return i <= 0 ? undefined : i - 1;
 }
 
 const directions = ["up", "upRight", "right", "downRight"] as const;

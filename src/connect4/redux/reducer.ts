@@ -28,7 +28,7 @@ export const connect4Reducer: Reducer<Connect4State, Connect4Actions> = (
 
       const row = findHighestEmptyRow(pieces, column);
 
-      if (!row) return state;
+      if (row === undefined) return state;
 
       const newPieces = placePiece(pieces, column, row, currentPlayer);
 
