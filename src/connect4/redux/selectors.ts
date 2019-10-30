@@ -1,13 +1,19 @@
 import { State } from "../../types";
 
 export function selectPieces(state: State) {
-  return state.connect4.pieces;
+  return getCurrentMove(state).pieces;
 }
 
 export function selectCurrentPlayer(state: State) {
-  return state.connect4.currentPlayer;
+  return getCurrentMove(state).currentPlayer;
 }
 
 export function selectWinner(state: State) {
-  return state.connect4.winner;
+  return getCurrentMove(state).winner;
+}
+
+function getCurrentMove(state: State) {
+  const { moves, undoSteps } = state.connect4;
+
+  return moves[moves.length - 1 - undoSteps];
 }

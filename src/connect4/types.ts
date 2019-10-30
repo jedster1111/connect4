@@ -6,7 +6,11 @@ export type NonEmptyPieceTypes = Filter<PieceTypes, "">;
 export type Pieces = PieceTypes[][];
 
 export type Connect4State = {
-  pieces: Pieces;
-  currentPlayer: PieceTypes;
-  winner: PieceTypes | undefined;
+  moves: {
+    pieces: Pieces;
+    currentPlayer: PieceTypes;
+    winner: PieceTypes | undefined;
+  }[];
+
+  undoSteps: number;
 };

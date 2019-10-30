@@ -10,38 +10,63 @@ import {
 } from "../gameLogic";
 
 const initialConnect4State: Connect4State = {
-  pieces: createEmptyPieces(),
-  currentPlayer: "X",
-  winner: undefined
+  moves: [
+    { pieces: createEmptyPieces(), currentPlayer: "X", winner: undefined }
+  ],
+  undoSteps: 0
 };
 
 export const connect4Reducer: Reducer<Connect4State, Connect4Actions> = (
   state = initialConnect4State,
   action
 ) => {
-  const { currentPlayer, pieces, winner } = state;
+  const { moves, undoSteps } = state;
+  const currentMove = moves[moves.length - 1 - undoSteps];
   switch (action.type) {
     case Connect4ActionTypes.piecePlaced: {
       const { column } = action.payload;
 
-      if (!currentPlayer || winner) return state;
+      if (!currentMove.currentPlayer || currentMove.winner) return state;
 
-      const row = findHighestEmptyRow(pieces, column);
+      const row = findHighestEmptyRow(currentMove.pieces, column);
 
       if (row === undefined) return state;
 
-      const newPieces = placePiece(pieces, column, row, currentPlayer);
+      const newPieces = placePiece(
+        currentMove.pieces,
+        column,
+        row,
+        currentMove.currentPlayer
+      );
 
       if (!newPieces) return state;
 
       const newWinner = findWinner(newPieces, { col: column, row });
 
+      const newMoves = [
+        ...moves.slice(0, moves.length - undoSteps),
+        {
+          pieces: newPieces,
+          currentPlayer:
+            newWinner === undefined
+              ? getNextPlayer(currentMove.currentPlayer)
+              : ("" as const),
+          winner: newWinner
+        }
+      ];
+
       return {
         ...state,
-        pieces: newPieces,
-        currentPlayer:
-          newWinner === undefined ? getNextPlayer(currentPlayer) : "",
-        winner: newWinner
+        moves: newMoves,
+        undoSteps: 0
+      };
+    }
+
+    case Connect4ActionTypes.stepBack: {
+      if (undoSteps === moves.length - 1) return state;
+      return {
+        ...state,
+        undoSteps: undoSteps + 1
       };
     }
 

@@ -1,6 +1,9 @@
 import React, { FC } from "react";
-import { PieceTypes, Pieces } from "../types";
+import { PieceTypes } from "../types";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { selectPieces } from "../redux/selectors";
+import { createPiecePlacedAction } from "../redux/actions";
 
 const StyledSquare = styled.button`
   width: 50px;
@@ -23,25 +26,25 @@ const Square: FC<{ piece: PieceTypes; onClick: () => void }> = ({
   onClick
 }) => <StyledSquare onClick={onClick}>{piece}</StyledSquare>;
 
-type BoardProps = {
-  pieces: Pieces;
-  onClickCol: (col: number) => void;
-};
+const Board: FC = () => {
+  const pieces = useSelector(selectPieces);
+  const dispatch = useDispatch();
 
-const Board: FC<BoardProps> = ({ pieces, onClickCol }) => (
-  <div>
-    {pieces.map((row, y) => (
-      <StyledRow key={y}>
-        {row.map((piece, x) => (
-          <Square
-            key={`${x}.${y}`}
-            piece={piece}
-            onClick={() => onClickCol(x)}
-          />
-        ))}
-      </StyledRow>
-    ))}
-  </div>
-);
+  return (
+    <div>
+      {pieces.map((row, y) => (
+        <StyledRow key={y}>
+          {row.map((piece, x) => (
+            <Square
+              key={`${x}.${y}`}
+              piece={piece}
+              onClick={() => dispatch(createPiecePlacedAction(x))}
+            />
+          ))}
+        </StyledRow>
+      ))}
+    </div>
+  );
+};
 
 export default Board;
