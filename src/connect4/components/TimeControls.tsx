@@ -5,7 +5,6 @@ import {
   createStepForwardsAction
 } from "../redux/actions";
 import { selectCanRedo, selectCanUndo } from "../redux/selectors";
-import { DH_NOT_SUITABLE_GENERATOR } from "constants";
 
 export const TimeControls: FC = () => {
   const dispatch = useDispatch();
