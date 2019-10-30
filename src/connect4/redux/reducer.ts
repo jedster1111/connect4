@@ -70,6 +70,14 @@ export const connect4Reducer: Reducer<Connect4State, Connect4Actions> = (
       };
     }
 
+    case Connect4ActionTypes.stepForwards: {
+      if (undoSteps === 0) return state;
+      return {
+        ...state,
+        undoSteps: undoSteps - 1
+      };
+    }
+
     case Connect4ActionTypes.resetGame: {
       return initialConnect4State;
     }
