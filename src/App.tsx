@@ -6,6 +6,7 @@ import { ResetGameButton } from "./connect4/components/ResetGameButton";
 import { TimeControls } from "./connect4/components/TimeControls";
 
 const AppWrapper = styled.div`
+  margin-top: 300px;
   border: solid 1px black;
 `;
 

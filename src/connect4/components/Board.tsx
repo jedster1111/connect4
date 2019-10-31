@@ -1,9 +1,24 @@
 import React, { FC } from "react";
-import { PieceTypes } from "../types";
 import styled from "styled-components";
+import { useTransition, animated, useSpring } from "react-spring";
+import { PieceTypes, NonEmptyPieceTypes } from "../types";
 import { useSelector, useDispatch } from "react-redux";
-import { selectPieces } from "../redux/selectors";
+import { selectPieces, selectHighestRowsInColumns } from "../redux/selectors";
 import { createPiecePlacedAction } from "../redux/actions";
+
+const Counter: FC<{ styles: any; piece: NonEmptyPieceTypes }> = ({
+  styles,
+  piece
+}) => (
+  <animated.svg
+    height={30}
+    width={30}
+    transform={styles.transform}
+    opacity={styles.opacity}
+  >
+    <circle r={15} cx={15} cy={15} fill={piece === "X" ? "red" : "yellow"} />
+  </animated.svg>
+);
 
 const StyledSquare = styled.button`
   width: 50px;
@@ -21,13 +36,33 @@ const StyledRow = styled.div`
   display: flex;
 `;
 
-const Square: FC<{ piece: PieceTypes; onClick: () => void }> = ({
-  piece,
-  onClick
-}) => <StyledSquare onClick={onClick}>{piece}</StyledSquare>;
+const Square: FC<{
+  piece: PieceTypes;
+  highestRowInCol: number | undefined;
+  onClick: () => void;
+}> = ({ piece, onClick, highestRowInCol }) => {
+  const transitions = useTransition(piece, null, {
+    from: {
+      transform: `translate(0 -${(highestRowInCol === undefined
+        ? -1
+        : highestRowInCol + 1) * 50})`,
+      opacity: 1
+    },
+    enter: { transform: "translate(0 0)", opacity: 1 },
+    leave: { transform: "translate(0 0)", opacity: 0 }
+  });
+  return (
+    <StyledSquare onClick={onClick}>
+      {transitions.map(({ item, key, props }) => {
+        return item && <Counter key={key} styles={props} piece={item} />;
+      })}
+    </StyledSquare>
+  );
+};
 
 const Board: FC = () => {
   const pieces = useSelector(selectPieces);
+  const highestRowsInCol = useSelector(selectHighestRowsInColumns);
   const dispatch = useDispatch();
 
   return (
@@ -38,6 +73,7 @@ const Board: FC = () => {
             <Square
               key={`${x}.${y}`}
               piece={piece}
+              highestRowInCol={highestRowsInCol[x]}
               onClick={() => dispatch(createPiecePlacedAction(x))}
             />
           ))}
