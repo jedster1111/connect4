@@ -1,5 +1,4 @@
 import { State } from "../../types";
-import { Pieces } from "../types";
 import { findHighestEmptyRow } from "../gameLogic";
 
 export function selectPieces(state: State) {

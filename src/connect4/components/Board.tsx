@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { useTransition, animated, useSpring } from "react-spring";
+import { useTransition, animated } from "react-spring";
 import { PieceTypes, NonEmptyPieceTypes } from "../types";
 import { useSelector, useDispatch } from "react-redux";
 import { selectPieces, selectHighestRowsInColumns } from "../redux/selectors";
@@ -15,12 +15,14 @@ const Counter: FC<{ styles: any; piece: NonEmptyPieceTypes }> = ({
     width={30}
     transform={styles.transform}
     opacity={styles.opacity}
+    style={{ position: "absolute" }}
   >
     <circle r={15} cx={15} cy={15} fill={piece === "X" ? "red" : "yellow"} />
   </animated.svg>
 );
 
 const StyledSquare = styled.button`
+  position: relative;
   width: 50px;
   height: 50px;
   border: solid 1px black;
