@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, CSSProperties } from "react";
 import styled from "styled-components";
 import { useTransition, animated } from "react-spring";
 import { PieceTypes, NonEmptyPieceTypes } from "../types";
@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectPieces, selectHighestRowsInColumns } from "../redux/selectors";
 import { createPiecePlacedAction } from "../redux/actions";
 
-const Counter: FC<{ styles: any; piece: NonEmptyPieceTypes }> = ({
+const Counter: FC<{ styles: CSSProperties; piece: NonEmptyPieceTypes }> = ({
   styles,
   piece
 }) => (
