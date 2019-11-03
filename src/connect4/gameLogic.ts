@@ -1,6 +1,7 @@
 import { Pieces, NonEmptyPieceTypes, PieceTypes } from "./types";
 import produce from "immer";
 import { is } from "../functionalHelpers/is";
+import { updateNestedArray } from "../functionalHelpers/arrayHelpers";
 
 export function createEmptyPieces(): Pieces {
   return [
@@ -27,14 +28,7 @@ export function placePiece(
 ): Pieces | undefined {
   if (!isColumnInRange(column)) return undefined;
 
-  return produce(pieces, draftPieces => {
-    let i = 0;
-    while (i < draftPieces.length && !draftPieces[i][column]) {
-      i++;
-    }
-
-    draftPieces[row][column] = piece;
-  });
+  return updateNestedArray(pieces, column, row, piece);
 }
 
 /**
