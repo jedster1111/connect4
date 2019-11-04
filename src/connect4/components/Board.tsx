@@ -8,6 +8,7 @@ import { createPiecePlacedAction } from "../redux/actions";
 import { Counter } from "./Counter";
 
 const StyledSquare = styled.button`
+  background-color: #d8d8d8;
   position: relative;
   width: 50px;
   height: 50px;
@@ -29,7 +30,15 @@ const Square: FC<{
     <StyledSquare onClick={onClick}>
       <AnimatePresence>
         {piece && (
-          <Counter piece={piece} highestRowInCol={highestRowInCol || 0} />
+          <Counter
+            piece={piece}
+            initialAnim={{
+              translateY:
+                (highestRowInCol === undefined ? -1 : highestRowInCol + 2) *
+                -50,
+              opacity: 1
+            }}
+          />
         )}
       </AnimatePresence>
     </StyledSquare>

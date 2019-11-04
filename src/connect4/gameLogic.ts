@@ -1,5 +1,4 @@
 import { Pieces, NonEmptyPieceTypes, PieceTypes } from "./types";
-import produce from "immer";
 import { is } from "../functionalHelpers/is";
 import { updateNestedArray } from "../functionalHelpers/arrayHelpers";
 

@@ -1,23 +1,31 @@
 import React from "react";
-import styled from "styled-components";
-import Board from "./connect4/components/Board";
-import { CurrentPlayerDisplay } from "./connect4/components/CurrentPlayerDisplay";
-import { ResetGameButton } from "./connect4/components/ResetGameButton";
-import { TimeControls } from "./connect4/components/TimeControls";
+import styled, { createGlobalStyle } from "styled-components";
+import { Connect4Game } from "./connect4/components/Connect4Game";
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: #FFFFEA;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif
+  }
+`;
 
 const AppWrapper = styled.div`
-  margin-top: 300px;
-  border: solid 1px black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  padding: 18px;
 `;
 
 const App: React.FC = () => {
   return (
-    <AppWrapper>
-      <Board />
-      <CurrentPlayerDisplay />
-      <ResetGameButton />
-      <TimeControls />
-    </AppWrapper>
+    <>
+      <GlobalStyle />
+      <AppWrapper>
+        <Connect4Game />
+      </AppWrapper>
+    </>
   );
 };
 

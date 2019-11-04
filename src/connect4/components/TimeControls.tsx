@@ -5,6 +5,7 @@ import {
   createStepForwardsAction
 } from "../redux/actions";
 import { selectCanRedo, selectCanUndo } from "../redux/selectors";
+import { Button } from "../../common/components/Button";
 
 export const TimeControls: FC = () => {
   const dispatch = useDispatch();
@@ -15,12 +16,12 @@ export const TimeControls: FC = () => {
   const handleRedo = () => dispatch(createStepForwardsAction());
   return (
     <div>
-      <button onClick={handleUndo} disabled={!canUndo}>
+      <Button onClick={handleUndo} disabled={!canUndo}>
         Undo
-      </button>
-      <button onClick={handleRedo} disabled={!canRedo}>
+      </Button>
+      <Button onClick={handleRedo} disabled={!canRedo}>
         Redo
-      </button>
+      </Button>
     </div>
   );
 };
